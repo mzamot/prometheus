@@ -1,0 +1,35 @@
+---
+  - name: Create non root user
+    user:
+      name: "{{ user }}"
+      groups: wheel
+      state: present
+       
+  - name: Create directories
+    file: 
+      owner: "{{ user }}"
+      group: "{{ user }}"
+      path: "{{ basedir }}/{{ user }}/current"
+      state: directory
+
+  - name: Download node_exporter
+    unarchive:
+      remote_src: yes
+      owner: "{{ user }}"
+      group: "{{ user }}"
+      src: "https://github.com/prometheus/node_exporter/releases/download/v{{ nodeversion }}/node_exporter-{{ nodeversion }}.linux-amd64.tar.gz"
+      dest: "{{ basedir }}/{{ user }}/current"
+
+  - name: Configure firewall. Remove this. Just for Cisco.
+    shell: iptables -I INPUT 3 -p tcp --dport 9100 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+  - name: Configure systemd. Gonna replace it with a template.
+    template:
+      src: node_exporter.j2
+      dest: /etc/systemd/system/node-exporter.service
+
+  - name: Reload systemd
+    systemd:
+      daemon_reload: yes
+      name: node-exporter
+      state: started

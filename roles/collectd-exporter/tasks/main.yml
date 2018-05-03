@@ -1,0 +1,42 @@
+---
+  - name: Create non root user
+    user:
+      name: "{{ user }}"
+      groups: wheel
+      state: present
+
+  - name: Allow members of wheel group to run commands as root
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: '^%wheel\s'
+      line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+
+  - name: Create directories
+    file: 
+      owner: "{{ user }}"
+      group: "{{ user }}"
+      path: "/home/{{ user }}/current"
+      state: directory
+
+  - name: Download Prometheus
+    unarchive:
+      remote_src: yes
+      owner: "{{ user }}"
+      group: "{{ user }}"
+      src: "https://github.com/prometheus/collectd_exporter/releases/download/v{{ collversion }}/collectd_exporter-{{ collversion }}.linux-amd64.tar.gz"
+      dest: "{{ basedir }}/{{ user }}/current"
+
+  - name: Configure firewall. Remove this. Just for Cisco.
+    shell: iptables -I INPUT 3 -p tcp --dport 65534 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+
+  - name: Configure systemd
+    template:
+      src: collectd-exporter.j2
+      dest: /etc/systemd/system/collectd-exporter.service
+
+  - name: Reload systemd
+    systemd:
+      daemon_reload: yes
+      name: collectd-exporter
+      state: started

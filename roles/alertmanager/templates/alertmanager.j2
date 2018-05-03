@@ -1,0 +1,8 @@
+[Unit]
+Description=Collectd Exporter
+[Service]
+User={{ user }}
+WorkingDirectory={{ basedir }}/{{ user }}/current/alertmanager-{{ alertversion }}.linux-amd64/
+ExecStart={{ basedir }}/{{ user }}/current/alertmanager-{{ alertversion }}.linux-amd64/start-alertmanager.bash
+[Install]
+WantedBy=default.target

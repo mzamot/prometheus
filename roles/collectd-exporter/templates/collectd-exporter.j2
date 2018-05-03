@@ -1,0 +1,8 @@
+[Unit]
+Description=Collectd Exporter
+[Service]
+User={{ user }}
+WorkingDirectory={{ basedir }}/{{ user }}/current/collectd_exporter-{{ collversion }}.linux-amd64
+ExecStart={{ basedir }}/{{ user }}/current/collectd_exporter-{{ collversion }}.linux-amd64/collectd_exporter --collectd.listen-address=0.0.0.0:65534
+[Install]
+WantedBy=default.target

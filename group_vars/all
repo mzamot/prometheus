@@ -1,0 +1,10 @@
+---
+nodeversion: 0.16.0-rc.3
+promversion: 2.2.1
+collversion: 0.4.0
+alertversion: 0.15.0-rc.1
+
+basedir: /home
+user: prometheus
+
+

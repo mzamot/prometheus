@@ -1,0 +1,9 @@
+[Unit]
+Description=Prometheus Server
+[Service]
+User={{ user }}
+WorkingDirectory={{ basedir }}/{{ user }}/current/prometheus-{{ promversion }}.linux-amd64
+ExecStart={{ basedir }}/{{ user }}/current/prometheus-{{ promversion }}.linux-amd64/prometheus --config.file={{ basedir }}/{{ user }}/current/prometheus-{{ promversion }}.linux-amd64/prometheus.yml
+[Install]
+WantedBy=default.target
+

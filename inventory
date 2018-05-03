@@ -1,0 +1,21 @@
+[server]
+#10.23.253.14 ansible_ssh_private_key_file=/home/stack/redaht.pem ansible_ssh_user=centos
+localhost ansible_ssh_user=stack ansible_ssh_pass=stack
+
+[node-exporter]
+192.168.3.52
+192.168.3.56
+192.168.3.67
+192.168.3.63
+192.168.3.62
+192.168.3.69
+192.168.3.53
+192.168.3.60
+192.168.3.58
+192.168.3.59
+
+[collectd-exporter]
+localhost ansible_ssh_user=stack ansible_ssh_pass=stack
+
+[all:vars]
+ansible_ssh_user=heat-admin

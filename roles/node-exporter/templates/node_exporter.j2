@@ -1,0 +1,9 @@
+[Unit]
+Description=Node Exporter
+[Service]
+User={{ user }}
+WorkingDirectory={{ basedir }}/{{ user }}/current/node_exporter-{{ nodeversion }}.linux-amd64
+ExecStart={{ basedir }}/{{ user }}/current/node_exporter-{{ nodeversion }}.linux-amd64/node_exporter
+[Install]
+WantedBy=default.target
+

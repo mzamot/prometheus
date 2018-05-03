@@ -1,0 +1,15 @@
+---
+- hosts: node-exporter 
+  become: yes
+  roles:
+    - node-exporter
+
+- hosts: server
+  become: yes
+  roles:
+    - prometheus-server
+
+- hosts: collectd-exporter
+  become: yes
+  roles:
+    - collectd-exporter
